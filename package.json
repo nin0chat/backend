@@ -1,0 +1,8 @@
+{
+    "name": "nin0chat-backend",
+    "type": "module",
+    "dependencies": {
+        "@types/ws": "^8.5.12",
+        "ws": "^8.18.0"
+    }
+}
