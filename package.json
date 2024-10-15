@@ -1,10 +1,17 @@
 {
     "name": "nin0chat-backend",
     "dependencies": {
-        "@types/ws": "^8.5.12",
         "ws": "^8.18.0"
     },
     "devDependencies": {
+        "@types/ws": "^8.5.12",
+        "nodemon": "^3.1.7",
+        "ts-node": "^10.9.2",
         "typescript": "^5.6.3"
+    },
+    "scripts": {
+        "start": "node dist/index.js",
+        "dev": "nodemon src/index.ts",
+        "build": "tsc"
     }
 }

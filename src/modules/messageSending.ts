@@ -28,3 +28,15 @@ export function sendMessage(d: SendMessagePayload, client?: ChatClient) {
         });
     }
 }
+
+export function sendError(client: ChatClient, code: number, message: string) {
+    client.send(
+        JSON.stringify({
+            op: -1,
+            d: {
+                code,
+                message
+            }
+        })
+    );
+}
