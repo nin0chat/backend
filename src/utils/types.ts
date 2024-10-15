@@ -14,3 +14,8 @@ export interface ChatClient extends WebSocket {
     role?: number;
     username?: string;
 }
+
+export type Payload = {
+    op: number;
+    d: any;
+};
