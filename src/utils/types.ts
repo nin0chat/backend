@@ -1,14 +1,14 @@
 import { WebSocket } from "ws";
 
 export const Role = {
-    Uninitialised: -2,
-    Guest: -1,
-    User: 0,
-    Bot: 1,
-    TrustedBot: 2,
-    System: 3,
-    Mod: 10,
-    Admin: 20
+    Uninitialised: 1 << 5,
+    Guest: 1 << 6,
+    User: 1 << 7,
+    Bot: 1 << 8,
+    TrustedBot: 1 << 9,
+    System: 1 << 10,
+    Mod: 1 << 11,
+    Admin: 1 << 12
 };
 
 export interface ChatClient extends WebSocket {
