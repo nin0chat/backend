@@ -3,10 +3,15 @@ import { ChatClient, Opcode, Payload, Role } from "./utils/types";
 import { config } from "./config";
 import { sendMessage } from "./modules/messageSending";
 import { accountInitialisation } from "./opcodes/accountInitialisation";
+import { receivedMessage } from "./opcodes/receivedMessage";
 
 export const wss = new WebSocketServer({ port: 8080 });
 
 const opcodes: Opcode[] = [
+    {
+        code: 0,
+        function: receivedMessage
+    },
     {
         code: 1,
         function: accountInitialisation
@@ -37,7 +42,7 @@ wss.on("connection", function connection(ws: ChatClient, req) {
         {
             userInfo: {
                 username: "System",
-                role: Role.Bot
+                role: Role.System
             },
             content:
                 "Welcome to nin0chat! You are currently connected as an unauthenticated guest and cannot talk until you either login or set your username."

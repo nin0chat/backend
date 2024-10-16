@@ -24,7 +24,7 @@ export function accountInitialisation(client: ChatClient, d: any) {
                 username: "System",
                 role: Role.Bot
             },
-            content: `${client.username} (guest) has joined the chat. Say hi!\nCurrently ${
+            content: `${client.username} *(guest)* has joined the chat. Say hi!\nCurrently ${
                 wss.clients.size
             } user${wss.clients.size === 1 ? " is" : "s are"} online.`
         });

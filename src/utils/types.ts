@@ -4,8 +4,9 @@ export const Role = {
     Uninitialised: -2,
     Guest: -1,
     User: 0,
-    Embedder: 1,
-    Bot: 2,
+    Bot: 1,
+    TrustedBot: 2,
+    System: 3,
     Mod: 10,
     Admin: 20
 };
