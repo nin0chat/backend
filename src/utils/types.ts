@@ -1,11 +1,9 @@
 import { WebSocket } from "ws";
 
 export const Role = {
-    Uninitialised: 1 << 5,
     Guest: 1 << 6,
     User: 1 << 7,
     Bot: 1 << 8,
-    TrustedBot: 1 << 9,
     System: 1 << 10,
     Mod: 1 << 11,
     Admin: 1 << 12
