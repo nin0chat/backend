@@ -4,9 +4,10 @@ import { ChatClient } from "../utils/types";
 type SendMessagePayload = {
     userInfo: {
         username: string;
-        role: number;
+        roles: number;
     };
     content: string;
+    id: string;
 };
 
 export function sendMessage(d: SendMessagePayload, client?: ChatClient) {

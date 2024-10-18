@@ -1,19 +1,20 @@
 import { WebSocket } from "ws";
 
 export const Role = {
-    Guest: 1 << 6,
-    User: 1 << 7,
-    Bot: 1 << 8,
-    System: 1 << 10,
-    Mod: 1 << 11,
-    Admin: 1 << 12
+    Guest: 1 << 0,
+    User: 1 << 1,
+    Bot: 1 << 2,
+    System: 1 << 3,
+    Mod: 1 << 4,
+    Admin: 1 << 5
 };
 
 export interface ChatClient extends WebSocket {
     ipAddress: string;
     id?: number;
-    role?: number;
+    roles?: number;
     username?: string;
+    initialised?: boolean;
 }
 
 export type Payload = {

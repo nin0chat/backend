@@ -1,5 +1,6 @@
 import { wss } from "..";
 import { sendError, sendMessage } from "../modules/messageSending";
+import { generateID } from "../utils/ids";
 import { ChatClient, Payload, Role } from "../utils/types";
 
 export function accountInitialisation(client: ChatClient, d: any) {
@@ -17,16 +18,17 @@ export function accountInitialisation(client: ChatClient, d: any) {
             return;
         }
         client.username = d.username;
-        client.role = -1;
+        client.roles = Role.Guest;
         client.id = Math.floor(Math.random() * 1000000);
         sendMessage({
             userInfo: {
                 username: "System",
-                role: Role.Bot
+                roles: Role.System
             },
             content: `${client.username} *(guest)* has joined the chat. Say hi!\nCurrently ${
                 wss.clients.size
-            } user${wss.clients.size === 1 ? " is" : "s are"} online.`
+            } user${wss.clients.size === 1 ? " is" : "s are"} online.`,
+            id: generateID()
         });
     }
 }
