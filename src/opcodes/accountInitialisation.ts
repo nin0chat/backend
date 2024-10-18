@@ -19,11 +19,23 @@ export function accountInitialisation(client: ChatClient, d: any) {
         }
         client.username = d.username;
         client.roles = Role.Guest;
-        client.id = Math.floor(Math.random() * 1000000);
+        client.id = Math.floor(Math.random() * 1000000).toString();
+        client.initialised = true;
+        client.send(
+            JSON.stringify({
+                op: 1,
+                d: {
+                    id: client.id,
+                    username: client.username,
+                    roles: client.roles
+                }
+            })
+        );
         sendMessage({
             userInfo: {
                 username: "System",
-                roles: Role.System
+                roles: Role.System,
+                id: "1"
             },
             content: `${client.username} *(guest)* has joined the chat. Say hi!\nCurrently ${
                 wss.clients.size

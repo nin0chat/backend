@@ -5,6 +5,7 @@ type SendMessagePayload = {
     userInfo: {
         username: string;
         roles: number;
+        id: string;
     };
     content: string;
     id: string;

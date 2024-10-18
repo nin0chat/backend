@@ -11,7 +11,7 @@ export const Role = {
 
 export interface ChatClient extends WebSocket {
     ipAddress: string;
-    id?: number;
+    id?: string;
     roles?: number;
     username?: string;
     initialised?: boolean;
