@@ -1,5 +1,5 @@
 export function generateID(): string {
-    const time = Date.now();
-    const randomlyGeneratedNumberOf5Digits = Math.floor(Math.random() * 100000);
-    return `${time}.${randomlyGeneratedNumberOf5Digits}`;
+    return (((BigInt(Date.now()) - 1729373102932n) << 22n) | (1n << 17n) | (1n << 12n) | 0n)
+        .toString()
+        .padStart(18, "0");
 }
