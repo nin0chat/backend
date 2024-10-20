@@ -4,6 +4,7 @@ import { sendError, sendMessage } from "../modules/messageSending";
 import { ChatClient, Payload, Role } from "../utils/types";
 import { moderateMessage } from "../modules/moderate";
 import { last10Messages } from "../modules/rateLimiting";
+import { saveMessageToHistory } from "../modules/history";
 
 export function receivedMessage(client: ChatClient, d: any) {
     const allowedCharacterLimit = client.roles! & Role.Guest ? 300 : 1000;
@@ -59,8 +60,7 @@ export function receivedMessage(client: ChatClient, d: any) {
             client
         );
     }
-
-    sendMessage({
+    const finalMessage = {
         userInfo: {
             username: client.username!,
             roles: client.roles!,
@@ -70,6 +70,8 @@ export function receivedMessage(client: ChatClient, d: any) {
         content: moderatedMessage.newMessageContent,
         id: generateID(),
         device: client.device
-    });
+    };
+    saveMessageToHistory(finalMessage);
+    sendMessage(finalMessage);
     client.lastMessageTimestamp = Date.now();
 }
