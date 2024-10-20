@@ -73,7 +73,8 @@ wss.on("connection", function connection(ws: ChatClient, req) {
             content:
                 "Welcome to nin0chat! You are currently connected as an unauthenticated guest and cannot talk until you either login (unless you're already logged in?) or set your username.",
             id: generateID(),
-            device: "web"
+            device: "web",
+            timestamp: Date.now()
         },
         ws
     );
