@@ -3,6 +3,7 @@ import { generateID } from "../utils/ids";
 import { sendError, sendMessage } from "../modules/messageSending";
 import { ChatClient, Payload, Role } from "../utils/types";
 import { moderateMessage } from "../modules/moderate";
+import { last10Messages } from "../modules/rateLimiting";
 
 export function receivedMessage(client: ChatClient, d: any) {
     const allowedCharacterLimit = client.roles! & Role.Guest ? 300 : 1000;
@@ -12,6 +13,34 @@ export function receivedMessage(client: ChatClient, d: any) {
     const moderatedMessage = moderateMessage(d.content);
     if (moderatedMessage.block)
         return sendError(client, 0, "Message blocked due to inappropriate content");
+    if (Date.now() - client.lastMessageTimestamp < 1000 && client.roles! & Role.Guest) {
+        console.log(`Client ${client.id} is sending messages too quickly. IP: ${client.ipAddress}`);
+        client.lastMessageTimestamp = Date.now();
+        return sendError(
+            client,
+            0,
+            `You are sending messages too quickly! Wait for 1 second before sending your next message. You can make an account to lift these limitations.`
+        );
+    }
+    const lastMessages = last10Messages.slice(-3);
+    if (
+        lastMessages.length === 3 &&
+        lastMessages.every((msg) => msg === moderatedMessage.newMessageContent)
+    ) {
+        return sendError(client, 0, "Globally, you cannot repeat messages.");
+    }
+    last10Messages.push(moderatedMessage.newMessageContent);
+    if (last10Messages.length > 10) last10Messages.shift();
+    client.last3MessageTimestamps = client.last3MessageTimestamps || [];
+    client.last3MessageTimestamps.push(Date.now());
+    if (client.last3MessageTimestamps.length > 3) client.last3MessageTimestamps.shift();
+
+    if (
+        client.last3MessageTimestamps.length === 3 &&
+        client.last3MessageTimestamps[2] - client.last3MessageTimestamps[0] < 2000
+    ) {
+        return sendError(client, 0, "You are sending messages too quickly.");
+    }
     if (moderatedMessage.newMessageContent !== d.content) {
         sendMessage(
             {
@@ -35,4 +64,5 @@ export function receivedMessage(client: ChatClient, d: any) {
         content: moderatedMessage.newMessageContent,
         id: generateID()
     });
+    client.lastMessageTimestamp = Date.now();
 }

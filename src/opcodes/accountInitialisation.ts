@@ -79,6 +79,21 @@ export async function accountInitialisation(client: ChatClient, d: any) {
             client.id = user.id;
             client.roles = parseInt(user.role);
             client.initialised = true;
+            try {
+                wss.clients.forEach((cc) => {
+                    const c = cc as ChatClient;
+                    if (c.username === user.username && (c.roles || -12) & Role.Guest) {
+                        sendError(
+                            c,
+                            1,
+                            "As you took the username of a registered user, and that user logged in, you have been disconnected."
+                        );
+                        c.close();
+                    }
+                });
+            } catch {
+                return;
+            }
             client.send(
                 JSON.stringify({
                     op: 1,
