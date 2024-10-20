@@ -28,7 +28,7 @@ wss.on("connection", function connection(ws: ChatClient, req) {
     ws.ipAddress = req.headers["cf-connecting-ip"]?.toString() || req.socket.remoteAddress!;
     ws.on("error", console.error);
 
-    ws.on("message", function message(data) {
+    ws.on("message", async function message(data) {
         try {
             const payload: Payload = JSON.parse(data.toString());
             const opcode = opcodes.find((o) => o.code === payload.op);
