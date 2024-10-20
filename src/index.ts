@@ -40,7 +40,8 @@ wss.on("connection", function connection(ws: ChatClient, req) {
                     wss.clients.size === 1 ? " is" : "s are"
                 } online.`,
                 id: generateID(),
-                device: null
+                device: null,
+                timestamp: Date.now()
             });
     });
 

@@ -127,7 +127,8 @@ export async function accountInitialisation(client: ChatClient, d: any) {
                     wss.clients.size
                 } user${wss.clients.size === 1 ? " is" : "s are"} online.`,
                 id: generateID(),
-                device: null
+                device: null,
+                timestamp: Date.now()
             });
         } catch {
             client.close();

@@ -22,24 +22,26 @@ export function receivedMessage(client: ChatClient, d: any) {
             `You are sending messages too quickly! Wait for 1 second before sending your next message. You can make an account to lift these limitations.`
         );
     }
-    const lastMessages = last10Messages.slice(-3);
-    if (
-        lastMessages.length === 3 &&
-        lastMessages.every((msg) => msg === moderatedMessage.newMessageContent)
-    ) {
-        return sendError(client, 0, "Globally, you cannot repeat messages.");
-    }
-    last10Messages.push(moderatedMessage.newMessageContent);
-    if (last10Messages.length > 10) last10Messages.shift();
-    client.last3MessageTimestamps = client.last3MessageTimestamps || [];
-    client.last3MessageTimestamps.push(Date.now());
-    if (client.last3MessageTimestamps.length > 3) client.last3MessageTimestamps.shift();
+    if (!(client.roles! & Role.Mod) && !(client.roles! & Role.Admin)) {
+        const lastMessages = last10Messages.slice(-3);
+        if (
+            lastMessages.length === 3 &&
+            lastMessages.every((msg) => msg === moderatedMessage.newMessageContent)
+        ) {
+            return sendError(client, 0, "Globally, you cannot repeat messages.");
+        }
+        last10Messages.push(moderatedMessage.newMessageContent);
+        if (last10Messages.length > 10) last10Messages.shift();
+        client.last3MessageTimestamps = client.last3MessageTimestamps || [];
+        client.last3MessageTimestamps.push(Date.now());
+        if (client.last3MessageTimestamps.length > 3) client.last3MessageTimestamps.shift();
 
-    if (
-        client.last3MessageTimestamps.length === 3 &&
-        client.last3MessageTimestamps[2] - client.last3MessageTimestamps[0] < 2000
-    ) {
-        return sendError(client, 0, "You are sending messages too quickly.");
+        if (
+            client.last3MessageTimestamps.length === 3 &&
+            client.last3MessageTimestamps[2] - client.last3MessageTimestamps[0] < 2000
+        ) {
+            return sendError(client, 0, "You are sending messages too quickly.");
+        }
     }
     if (moderatedMessage.newMessageContent !== d.content) {
         sendMessage(
@@ -51,7 +53,8 @@ export function receivedMessage(client: ChatClient, d: any) {
                 },
                 content: `You have tried to say racist, sexual or brainrotted words in your message. These have been replaced by better words :) (if you keep doing this, you might be banned!)`,
                 id: generateID(),
-                device: null
+                device: null,
+                timestamp: Date.now()
             },
             client
         );
