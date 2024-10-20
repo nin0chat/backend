@@ -8,6 +8,7 @@ export function receivedMessage(client: ChatClient, d: any) {
     const allowedCharacterLimit = client.roles! & Role.Guest ? 300 : 1000;
     if (d.content.length > 2000)
         return sendError(client, 0, `Message too long, max is ${allowedCharacterLimit} characters`);
+    if (!d.content || d.content.length === 0) return;
     const moderatedMessage = moderateMessage(d.content);
     if (moderatedMessage.block)
         return sendError(client, 0, "Message blocked due to inappropriate content");

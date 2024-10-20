@@ -28,6 +28,21 @@ wss.on("connection", function connection(ws: ChatClient, req) {
     ws.ipAddress = req.headers["cf-connecting-ip"]?.toString() || req.socket.remoteAddress!;
     ws.on("error", console.error);
 
+    ws.on("close", function close() {
+        if (ws.initialised)
+            sendMessage({
+                userInfo: {
+                    username: "System",
+                    roles: Role.System,
+                    id: "1"
+                },
+                content: `${ws.username} has left the chat.\nCurrently ${wss.clients.size} user${
+                    wss.clients.size === 1 ? " is" : "s are"
+                } online.`,
+                id: generateID()
+            });
+    });
+
     ws.on("message", async function message(data) {
         try {
             const payload: Payload = JSON.parse(data.toString());
@@ -72,3 +87,5 @@ wss.on("connection", function connection(ws: ChatClient, req) {
         }
     }, Math.floor(Math.random() * 10000) + 1000);
 });
+
+process.on("unhandledRejection", (reason, promise) => {});
