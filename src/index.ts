@@ -33,7 +33,8 @@ wss.on("connection", function connection(ws: ChatClient, req) {
             const payload: Payload = JSON.parse(data.toString());
             const opcode = opcodes.find((o) => o.code === payload.op);
             if (!opcode) throw "Invalid opcode received";
-            if (opcode.code !== 1 && !ws.initialised) throw "Attempt to use ws without init";
+            if (opcode.code !== 1 && opcode.code !== 2 && !ws.initialised)
+                throw "Attempt to use ws without init";
             opcode.function(ws, payload.d);
         } catch (e) {
             console.error(e);
@@ -42,11 +43,8 @@ wss.on("connection", function connection(ws: ChatClient, req) {
     });
 
     // Initialise client and send system message
-    ws.roles = 0;
+    ws.roles = Role.Guest;
     ws.lastHeartbeat = Date.now();
-
-    let intervalNum = Math.floor(Math.random() * 10000) + 1000
-
     sendMessage(
         {
             userInfo: {
@@ -55,9 +53,8 @@ wss.on("connection", function connection(ws: ChatClient, req) {
                 id: "1"
             },
             content:
-            "Welcome to nin0chat! You are currently connected as an unauthenticated guest and cannot talk until you either login (unless you're already logged in?) or set your username.",
-            id: generateID(),
-            heartbeat: intervalNum
+                "Welcome to nin0chat! You are currently connected as an unauthenticated guest and cannot talk until you either login (unless you're already logged in?) or set your username.",
+            id: generateID()
         },
         ws
     );
@@ -73,5 +70,5 @@ wss.on("connection", function connection(ws: ChatClient, req) {
                 })
             );
         }
-    }, intervalNum);
+    }, Math.floor(Math.random() * 10000) + 1000);
 });
