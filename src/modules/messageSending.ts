@@ -7,9 +7,10 @@ type SendMessagePayload = {
         roles: number;
         id: string;
     };
+    timestamp?: number;
     content: string;
     id: string;
-    heartbeat?: number;
+    device: string | null;
 };
 
 export function sendMessage(d: SendMessagePayload, client?: ChatClient) {

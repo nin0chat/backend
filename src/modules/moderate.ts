@@ -43,11 +43,12 @@ const bannedWords = [
     "boobies",
     "boobs",
     "booby",
+    "porn",
     "pron",
     "r34",
-    "mewing",
+    "mewing", // 🤫🧏🏻‍♂️
     "mew",
-    "skibidi",
+    "skibidi", // 🚽
     "gyat",
     "gyatt",
     "rizzler",
@@ -57,7 +58,7 @@ const bannedWords = [
     "hawk tuah",
     "retard",
     "faggot",
-    "fag",
+    "fag", // hey look it's me - koda
     "faggots",
     "fags",
     "n*g",

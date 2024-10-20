@@ -1,6 +1,6 @@
 import { WebSocketServer } from "ws";
 import { ChatClient, Opcode, Payload, Role } from "./utils/types";
-import { config } from "./config";
+//import { config } from "./config";
 import { sendMessage } from "./modules/messageSending";
 import { accountInitialisation } from "./opcodes/accountInitialisation";
 import { receivedMessage } from "./opcodes/receivedMessage";
@@ -39,7 +39,8 @@ wss.on("connection", function connection(ws: ChatClient, req) {
                 content: `${ws.username} has left the chat.\nCurrently ${wss.clients.size} user${
                     wss.clients.size === 1 ? " is" : "s are"
                 } online.`,
-                id: generateID()
+                id: generateID(),
+                device: null
             });
     });
 
@@ -60,6 +61,7 @@ wss.on("connection", function connection(ws: ChatClient, req) {
     // Initialise client and send system message
     ws.roles = Role.Guest;
     ws.lastHeartbeat = Date.now();
+
     sendMessage(
         {
             userInfo: {
@@ -69,13 +71,14 @@ wss.on("connection", function connection(ws: ChatClient, req) {
             },
             content:
                 "Welcome to nin0chat! You are currently connected as an unauthenticated guest and cannot talk until you either login (unless you're already logged in?) or set your username.",
-            id: generateID()
+            id: generateID(),
+            device: "web"
         },
         ws
     );
 
     setInterval(() => {
-        if (ws.lastHeartbeat + 10000 < Date.now() && ws.initialised) {
+        if (ws.lastHeartbeat + 10000 < Date.now()) {
             ws.close();
         } else {
             ws.send(

@@ -50,19 +50,23 @@ export function receivedMessage(client: ChatClient, d: any) {
                     id: "1"
                 },
                 content: `You have tried to say racist, sexual or brainrotted words in your message. These have been replaced by better words :) (if you keep doing this, you might be banned!)`,
-                id: generateID()
+                id: generateID(),
+                device: null
             },
             client
         );
     }
+
     sendMessage({
         userInfo: {
             username: client.username!,
             roles: client.roles!,
             id: client.id!
         },
+        timestamp: Date.now(),
         content: moderatedMessage.newMessageContent,
-        id: generateID()
+        id: generateID(),
+        device: client.device
     });
     client.lastMessageTimestamp = Date.now();
 }

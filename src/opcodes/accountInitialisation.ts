@@ -5,6 +5,13 @@ import { sendError, sendMessage } from "../modules/messageSending";
 import { generateID } from "../utils/ids";
 import { ChatClient, Payload, Role } from "../utils/types";
 
+export async function validateDevice(client: ChatClient, d: any) {
+    if (!d.device || !["web", "mobile", "bot"].includes(d.device)) {
+        return sendError(client, 1, "Invalid device");
+    }
+    client.device = d.device;
+}
+
 export async function accountInitialisation(client: ChatClient, d: any) {
     if (d.anon) {
         if (!d.username || (d.username as String).length > 30) throw "Invalid username";
@@ -19,6 +26,9 @@ export async function accountInitialisation(client: ChatClient, d: any) {
         } catch {
             return;
         }
+
+        validateDevice(client, d);
+
         client.username = d.username;
         client.roles = Role.Guest;
         client.id = generateID();
@@ -42,7 +52,8 @@ export async function accountInitialisation(client: ChatClient, d: any) {
             content: `${client.username} *(guest)* has joined the chat. Say hi!\nCurrently ${
                 wss.clients.size
             } user${wss.clients.size === 1 ? " is" : "s are"} online.`,
-            id: generateID()
+            id: generateID(),
+            device: null
         });
     } else {
         try {
@@ -75,6 +86,7 @@ export async function accountInitialisation(client: ChatClient, d: any) {
             const user = userQuery.rows[0];
             if (!user.activated) return sendError(client, 1, "Account not activated");
             // Initialise client
+            validateDevice(client, d);
             client.username = user.username;
             client.id = user.id;
             client.roles = parseInt(user.role);
@@ -100,7 +112,8 @@ export async function accountInitialisation(client: ChatClient, d: any) {
                     d: {
                         id: client.id,
                         username: client.username,
-                        roles: client.roles
+                        roles: client.roles,
+                        device: client.device
                     }
                 })
             );
@@ -113,7 +126,8 @@ export async function accountInitialisation(client: ChatClient, d: any) {
                 content: `${client.username} has joined the chat. Say hi!\nCurrently ${
                     wss.clients.size
                 } user${wss.clients.size === 1 ? " is" : "s are"} online.`,
-                id: generateID()
+                id: generateID(),
+                device: null
             });
         } catch {
             client.close();
