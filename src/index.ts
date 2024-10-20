@@ -4,6 +4,7 @@ import { config } from "./config";
 import { sendMessage } from "./modules/messageSending";
 import { accountInitialisation } from "./opcodes/accountInitialisation";
 import { receivedMessage } from "./opcodes/receivedMessage";
+import { heartbeat } from "./opcodes/heartbeat";
 import { generateID } from "./utils/ids";
 
 export const wss = new WebSocketServer({ port: 8080 });
@@ -16,6 +17,10 @@ const opcodes: Opcode[] = [
     {
         code: 1,
         function: accountInitialisation
+    },
+    {
+        code: 2,
+        function: heartbeat
     }
 ];
 
@@ -38,6 +43,10 @@ wss.on("connection", function connection(ws: ChatClient, req) {
 
     // Initialise client and send system message
     ws.roles = 0;
+    ws.lastHeartbeat = Date.now();
+
+    let intervalNum = Math.floor(Math.random() * 10000) + 1000
+
     sendMessage(
         {
             userInfo: {
@@ -46,9 +55,23 @@ wss.on("connection", function connection(ws: ChatClient, req) {
                 id: "1"
             },
             content:
-                "Welcome to nin0chat! You are currently connected as an unauthenticated guest and cannot talk until you either login (unless you're already logged in?) or set your username.",
-            id: generateID()
+            "Welcome to nin0chat! You are currently connected as an unauthenticated guest and cannot talk until you either login (unless you're already logged in?) or set your username.",
+            id: generateID(),
+            heartbeat: intervalNum
         },
         ws
     );
+
+    setInterval(() => {
+        if (ws.lastHeartbeat + 10000 < Date.now() && ws.initialised) {
+            ws.close();
+        } else {
+            ws.send(
+                JSON.stringify({
+                    op: 2,
+                    d: {}
+                })
+            );
+        }
+    }, intervalNum);
 });

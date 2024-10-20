@@ -9,6 +9,7 @@ type SendMessagePayload = {
     };
     content: string;
     id: string;
+    heartbeat?: number;
 };
 
 export function sendMessage(d: SendMessagePayload, client?: ChatClient) {

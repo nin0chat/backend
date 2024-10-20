@@ -15,6 +15,7 @@ export interface ChatClient extends WebSocket {
     roles?: number;
     username?: string;
     initialised?: boolean;
+    lastHeartbeat: number;
 }
 
 export type Payload = {
