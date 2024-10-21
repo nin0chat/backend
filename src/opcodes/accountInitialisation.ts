@@ -29,7 +29,7 @@ export async function accountInitialisation(client: ChatClient, d: any) {
         }
 
         const moderatedUsername = moderateMessage(d.username);
-        if (moderatedUsername !== d.username)
+        if (moderatedUsername.newMessageContent !== d.username)
             return sendError(client, 1, "Username contains bad words");
         if (!onlyLettersAndNumbers(d.username))
             return sendError(client, 1, "Username contains non alphanumeric chars");
