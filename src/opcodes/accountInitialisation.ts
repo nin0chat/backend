@@ -4,7 +4,7 @@ import { psqlClient } from "../modules/database";
 import { sendError, sendMessage } from "../modules/messageSending";
 import { generateID } from "../utils/ids";
 import { ChatClient, Payload, Role } from "../utils/types";
-import { moderateMessage, nickRegex, onlyLettersAndNumbers } from "../modules/moderate";
+import { moderateMessage, onlyLettersAndNumbers } from "../modules/moderate";
 
 export async function validateDevice(client: ChatClient, d: any) {
     if (!d.device || !["web", "mobile", "bot"].includes(d.device)) {
