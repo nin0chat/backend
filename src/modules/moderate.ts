@@ -27,7 +27,16 @@ const badNounsReplacements = [
     "mom",
     "owner",
     "airport",
-    "Avast Antivirus Free"
+    "Avast Antivirus Free",
+    "i may be a furry",
+    "maybe the godfather wasn't that bad",
+    "tom holland isn't real",
+    "i have MILLIONS of chest hairs",
+    "buckingham palace",
+    "glorp zeep",
+    "lithium mines",
+    ", and i felt that",
+    "i yearn for the farms"
 ];
 const bannedWords = [
     "cunt",
@@ -45,7 +54,9 @@ const bannedWords = [
     "booby",
     "porn",
     "pron",
+    "pawrn",
     "r34",
+    "rule34",
     "mewing", // 🤫🧏🏻‍♂️
     "mew",
     "skibidi", // 🚽
@@ -58,13 +69,17 @@ const bannedWords = [
     "hawk tuah",
     "retard",
     "faggot",
-    "fag", // hey look it's me - koda
+    "fag", // hey look it's us - koda and zander
     "faggots",
     "fags",
     "n*g",
     "n*gg*",
     "n*gg*r",
-    "nigga"
+    "nigga",
+    "grope",
+    "i'm gonna touch you",
+    "im gonna touch you",
+    "tranny" // haha also me - zander
 ];
 
 export function onlyLettersAndNumbers(string: string) {
