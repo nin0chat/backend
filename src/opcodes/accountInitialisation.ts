@@ -4,6 +4,7 @@ import { psqlClient } from "../modules/database";
 import { sendError, sendMessage } from "../modules/messageSending";
 import { generateID } from "../utils/ids";
 import { ChatClient, Payload, Role } from "../utils/types";
+import { moderateMessage, nickRegex } from "../modules/moderate";
 
 export async function validateDevice(client: ChatClient, d: any) {
     if (!d.device || !["web", "mobile", "bot"].includes(d.device)) {
@@ -26,6 +27,12 @@ export async function accountInitialisation(client: ChatClient, d: any) {
         } catch {
             return;
         }
+
+        const moderatedUsername = moderateMessage(d.username);
+        if (moderatedUsername !== d.username)
+            return sendError(client, 1, "Username contains bad words");
+        if (!nickRegex.test(d.username))
+            return sendError(client, 1, "Username contains non alphanumeric chars");
 
         validateDevice(client, d);
 

@@ -67,6 +67,8 @@ const bannedWords = [
     "nigga"
 ];
 
+export const nickRegex = /^[a-z0-9]+$/i;
+
 function replaceBadWords(content: string): string {
     const regex = new RegExp("\\b(" + bannedWords.join("|") + ")\\b", "gi");
 
