@@ -8,7 +8,7 @@ import { heartbeat } from "./opcodes/heartbeat";
 import { generateID } from "./utils/ids";
 import { history } from "./modules/history";
 
-export const wss = new WebSocketServer({ port: 8080 });
+export const wss = new WebSocketServer({ port: 8928 });
 
 const opcodes: Opcode[] = [
     {
