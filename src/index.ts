@@ -5,6 +5,7 @@ import { sendMessage } from "./modules/messageSending";
 import { accountInitialisation } from "./opcodes/accountInitialisation";
 import { receivedMessage } from "./opcodes/receivedMessage";
 import { heartbeat } from "./opcodes/heartbeat";
+import { ping } from "./opcodes/ping";
 import { generateID } from "./utils/ids";
 import { history } from "./modules/history";
 
@@ -22,6 +23,10 @@ const opcodes: Opcode[] = [
     {
         code: 2,
         function: heartbeat
+    },
+    {
+        code: 3,
+        function: ping
     }
 ];
 
