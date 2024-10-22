@@ -5,7 +5,7 @@ import { psqlClient } from "../modules/database";
 import { sendError, sendMessage } from "../modules/messageSending";
 import { moderateMessage, onlyLettersAndNumbers } from "../modules/moderate";
 import { generateID } from "../utils/ids";
-import { ChatClient, Payload, Role } from "../utils/types";
+import { ChatClient, MessageTypes, Payload, Role } from "../utils/types";
 
 export async function validateDevice(client: ChatClient, d: any) {
     if (!d.device || !["web", "mobile", "bot"].includes(d.device)) {
@@ -130,7 +130,7 @@ export async function accountInitialisation(client: ChatClient, d: any) {
                 })
             );
             sendMessage({
-                type: 1,
+                type: MessageTypes.Join,
                 userInfo: {
                     username: "System",
                     roles: Role.System,

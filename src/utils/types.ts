@@ -9,6 +9,14 @@ export const Role = {
     Admin: 1 << 5
 };
 
+export const MessageTypes = {
+    Normal: 0,
+    Join: 1,
+    Leave: 2,
+    GoodPerson: 3,
+    Bridge: 4
+};
+
 export interface ChatClient extends WebSocket {
     ipAddress: string;
     id?: string;
