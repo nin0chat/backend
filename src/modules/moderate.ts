@@ -31,21 +31,21 @@ const badNounsReplacements = [
     "buckingham palace",
     "glorp zeep",
     "lithium mines",
-    "NDA required"
-    "gnarp"
-    "ninachat membership"
-    "device"
-    "nina restaurant"
-    "negative wealth"
-    "koda"
-    "zander"
-    "radiohead"
-    "fumo"
-    "adobe astronaut"
-    "piracy"
-    "ninacord"
-    "devilbro"
-    "32gb Trident Z @3200"
+    "NDA required",
+    "gnarp",
+    "ninachat membership",
+    "device",
+    "nina restaurant",
+    "negative wealth",
+    "koda",
+    "zander",
+    "radiohead",
+    "fumo",
+    "adobe astronaut",
+    "piracy",
+    "ninacord",
+    "devilbro",
+    "32gb Trident Z @3200",
     "ultrakill"
 ];
 const bannedWords = [
