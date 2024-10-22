@@ -1,10 +1,11 @@
 import { compare } from "bcrypt";
+
 import { wss } from "..";
 import { psqlClient } from "../modules/database";
 import { sendError, sendMessage } from "../modules/messageSending";
+import { moderateMessage, onlyLettersAndNumbers } from "../modules/moderate";
 import { generateID } from "../utils/ids";
 import { ChatClient, Payload, Role } from "../utils/types";
-import { moderateMessage, onlyLettersAndNumbers } from "../modules/moderate";
 
 export async function validateDevice(client: ChatClient, d: any) {
     if (!d.device || !["web", "mobile", "bot"].includes(d.device)) {
@@ -15,7 +16,7 @@ export async function validateDevice(client: ChatClient, d: any) {
 
 export async function accountInitialisation(client: ChatClient, d: any) {
     if (d.anon) {
-        if (!d.username || (d.username as String).length > 30) throw "Invalid username";
+        if (!d.username || (d.username as string).length > 30) throw "Invalid username";
         try {
             wss.clients.forEach((cc) => {
                 const c = cc as ChatClient;
@@ -66,9 +67,9 @@ export async function accountInitialisation(client: ChatClient, d: any) {
     } else {
         try {
             if (!d.token) client.close();
-            const userID = (d.token as String).split(".")[0];
-            const seed = (d.token as String).split(".")[1];
-            const token = (d.token as String).split(".")[2];
+            const userID = (d.token as string).split(".")[0];
+            const seed = (d.token as string).split(".")[1];
+            const token = (d.token as string).split(".")[2];
             // Verify token
             const query = await psqlClient.query(
                 "SELECT token FROM tokens WHERE id=$1 AND seed=$2",

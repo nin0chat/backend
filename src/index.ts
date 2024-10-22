@@ -1,12 +1,13 @@
 import { WebSocketServer } from "ws";
-import { ChatClient, Opcode, Payload, Role } from "./utils/types";
+
+import { history } from "./modules/history";
 //import { config } from "./config";
 import { sendMessage } from "./modules/messageSending";
 import { accountInitialisation } from "./opcodes/accountInitialisation";
-import { receivedMessage } from "./opcodes/receivedMessage";
 import { heartbeat } from "./opcodes/heartbeat";
+import { receivedMessage } from "./opcodes/receivedMessage";
 import { generateID } from "./utils/ids";
-import { history } from "./modules/history";
+import { ChatClient, Opcode, Payload, Role } from "./utils/types";
 
 export const wss = new WebSocketServer({ port: 8928 });
 

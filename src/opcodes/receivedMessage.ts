@@ -1,10 +1,10 @@
 import { wss } from "..";
-import { generateID } from "../utils/ids";
+import { saveMessageToHistory } from "../modules/history";
 import { sendError, sendMessage } from "../modules/messageSending";
-import { ChatClient, Payload, Role } from "../utils/types";
 import { moderateMessage } from "../modules/moderate";
 import { last10Messages } from "../modules/rateLimiting";
-import { saveMessageToHistory } from "../modules/history";
+import { generateID } from "../utils/ids";
+import { ChatClient, Payload, Role } from "../utils/types";
 
 export function receivedMessage(client: ChatClient, d: any) {
     const allowedCharacterLimit = client.roles! & Role.Guest ? 300 : 1000;
@@ -20,7 +20,7 @@ export function receivedMessage(client: ChatClient, d: any) {
         return sendError(
             client,
             0,
-            `You are sending messages too quickly! Wait for 1 second before sending your next message. You can make an account to lift these limitations.`
+            "You are sending messages too quickly! Wait for 1 second before sending your next message. You can make an account to lift these limitations."
         );
     }
     if (!(client.roles! & Role.Mod) && !(client.roles! & Role.Admin)) {
@@ -52,7 +52,7 @@ export function receivedMessage(client: ChatClient, d: any) {
                     roles: Role.System,
                     id: "1"
                 },
-                content: `You have tried to say racist, sexual or brainrotted words in your message. These have been replaced by better words :) (if you keep doing this, you might be banned!)`,
+                content: "You have tried to say racist, sexual or brainrotted words in your message. These have been replaced by better words :) (if you keep doing this, you might be banned!)",
                 id: generateID(),
                 device: null,
                 timestamp: Date.now()

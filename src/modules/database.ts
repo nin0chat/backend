@@ -1,4 +1,5 @@
 import pg from "pg";
+
 import { config } from "../config";
 
 const { Client } = pg;
