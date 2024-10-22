@@ -28,15 +28,25 @@ const badNounsReplacements = [
     "owner",
     "airport",
     "Avast Antivirus Free",
-    ", also i may be a furry: ",
-    ", by the way, the godfather wasn't that bad! ",
-    ". tom holland isn't real. ",
-    ", yup, i have MILLIONS of chest hairs. ",
     "buckingham palace",
     "glorp zeep",
     "lithium mines",
-    ", and i felt that",
-    ", i yearn for the farms!!! "
+    "NDA required"
+    "gnarp"
+    "ninachat membership"
+    "device"
+    "nina restaurant"
+    "negative wealth"
+    "koda"
+    "zander"
+    "radiohead"
+    "fumo"
+    "adobe astronaut"
+    "piracy"
+    "ninacord"
+    "devilbro"
+    "32gb Trident Z @3200"
+    "ultrakill"
 ];
 const bannedWords = [
     "cunt",
