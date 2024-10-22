@@ -5,7 +5,7 @@ import { psqlClient } from "../modules/database";
 import { sendError, sendMessage } from "../modules/messageSending";
 import { moderateMessage, onlyLettersAndNumbers } from "../modules/moderate";
 import { generateID } from "../utils/ids";
-import { ChatClient, MessageTypes, Payload, Role } from "../utils/types";
+import { ChatClient, MemberListUser, MessageTypes, Payload, Role } from "../utils/types";
 
 export async function validateDevice(client: ChatClient, d: any) {
     if (!d.device || !["web", "mobile", "bot"].includes(d.device)) {
@@ -146,5 +146,25 @@ export async function accountInitialisation(client: ChatClient, d: any) {
         } catch {
             client.close();
         }
+    }
+    const users: MemberListUser[] = [];
+    for (const client of wss.clients) {
+        const c = client as ChatClient;
+        if (!c.initialised) continue;
+        users.push({
+            id: c.id!,
+            username: c.username!,
+            roles: c.roles!
+        });
+    }
+    for (const client of wss.clients) {
+        client.send(
+            JSON.stringify({
+                op: 4,
+                d: {
+                    users
+                }
+            })
+        );
     }
 }

@@ -8,7 +8,7 @@ import { receivedMessage } from "./opcodes/receivedMessage";
 import { heartbeat } from "./opcodes/heartbeat";
 import { ping } from "./opcodes/ping";
 import { generateID } from "./utils/ids";
-import { ChatClient, MessageTypes, Opcode, Payload, Role } from "./utils/types";
+import { ChatClient, MemberListUser, MessageTypes, Opcode, Payload, Role } from "./utils/types";
 
 export const wss = new WebSocketServer({ port: 8928 });
 
@@ -51,6 +51,26 @@ wss.on("connection", function connection(ws: ChatClient, req) {
                 device: null,
                 timestamp: Date.now()
             });
+        const users: MemberListUser[] = [];
+        for (const client of wss.clients) {
+            const c = client as ChatClient;
+            if (!c.initialised) continue;
+            users.push({
+                id: c.id!,
+                username: c.username!,
+                roles: c.roles!
+            });
+        }
+        for (const client of wss.clients) {
+            client.send(
+                JSON.stringify({
+                    op: 4,
+                    d: {
+                        users
+                    }
+                })
+            );
+        }
     });
 
     ws.on("message", async function message(data) {

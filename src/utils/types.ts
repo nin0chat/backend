@@ -38,3 +38,9 @@ export type Opcode = {
     code: number;
     function: (client: ChatClient, d: any) => void;
 };
+
+export type MemberListUser = {
+    username: string;
+    id: string;
+    roles: number;
+};
