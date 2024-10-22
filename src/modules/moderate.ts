@@ -27,7 +27,26 @@ const badNounsReplacements = [
     "mom",
     "owner",
     "airport",
-    "Avast Antivirus Free"
+    "Avast Antivirus Free",
+    "buckingham palace",
+    "glorp zeep",
+    "lithium mines",
+    "NDA required",
+    "gnarp",
+    "ninachat membership",
+    "device",
+    "nina restaurant",
+    "negative wealth",
+    "koda",
+    "zander",
+    "radiohead",
+    "fumo",
+    "adobe astronaut",
+    "piracy",
+    "ninacord",
+    "devilbro",
+    "32gb Trident Z @3200",
+    "ultrakill"
 ];
 const bannedWords = [
     "cunt",
@@ -45,7 +64,9 @@ const bannedWords = [
     "booby",
     "porn",
     "pron",
+    "pawrn",
     "r34",
+    "rule34",
     "mewing", // 🤫🧏🏻‍♂️
     "mew",
     "skibidi", // 🚽
@@ -58,13 +79,15 @@ const bannedWords = [
     "hawk tuah",
     "retard",
     "faggot",
-    "fag", // hey look it's me - koda
+    "fag", // hey look it's us - koda and zander
     "faggots",
     "fags",
     "n*g",
     "n*gg*",
     "n*gg*r",
-    "nigga"
+    "nigga",
+    "grope",
+    "tranny" // haha also me - zander
 ];
 
 export function onlyLettersAndNumbers(string: string) {
