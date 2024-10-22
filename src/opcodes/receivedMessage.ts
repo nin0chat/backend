@@ -11,7 +11,13 @@ export function receivedMessage(client: ChatClient, d: any) {
     if (d.content.length > 2000)
         return sendError(client, 0, `Message too long, max is ${allowedCharacterLimit} characters`);
     if (!d.content || d.content.length === 0) return;
-    const moderatedMessage = moderateMessage(d.content);
+    const moderatedMessage =
+        client.roles! & Role.Mod
+            ? {
+                  newMessageContent: d.content,
+                  block: false
+              }
+            : moderateMessage(d.content);
     if (moderatedMessage.block)
         return sendError(client, 0, "Message blocked due to inappropriate content");
     if (Date.now() - client.lastMessageTimestamp < 1000 && client.roles! & Role.Guest) {
@@ -52,7 +58,8 @@ export function receivedMessage(client: ChatClient, d: any) {
                     roles: Role.System,
                     id: "1"
                 },
-                content: "You have tried to say racist, sexual or brainrotted words in your message. These have been replaced by better words :) (if you keep doing this, you might be banned!)",
+                content:
+                    "You have tried to say racist, sexual or brainrotted words in your message. These have been replaced by better words :) (if you keep doing this, you might be banned!)",
                 id: generateID(),
                 device: null,
                 timestamp: Date.now()
