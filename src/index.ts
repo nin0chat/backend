@@ -8,7 +8,7 @@ import { receivedMessage } from "./opcodes/receivedMessage";
 import { heartbeat } from "./opcodes/heartbeat";
 import { ping } from "./opcodes/ping";
 import { generateID } from "./utils/ids";
-import { ChatClient, Opcode, Payload, Role } from "./utils/types";
+import { ChatClient, MessageTypes, Opcode, Payload, Role } from "./utils/types";
 
 export const wss = new WebSocketServer({ port: 8928 });
 
@@ -38,7 +38,7 @@ wss.on("connection", function connection(ws: ChatClient, req) {
     ws.on("close", function close() {
         if (ws.initialised)
             sendMessage({
-                type: 2,
+                type: MessageTypes.Leave,
                 userInfo: {
                     username: "System",
                     roles: Role.System,

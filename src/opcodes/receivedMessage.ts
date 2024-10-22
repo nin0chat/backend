@@ -4,7 +4,7 @@ import { sendError, sendMessage } from "../modules/messageSending";
 import { moderateMessage } from "../modules/moderate";
 import { last10Messages } from "../modules/rateLimiting";
 import { generateID } from "../utils/ids";
-import { ChatClient, Payload, Role } from "../utils/types";
+import { ChatClient, MessageTypes, Payload, Role } from "../utils/types";
 
 export function receivedMessage(client: ChatClient, d: any) {
     const allowedCharacterLimit = client.roles! & Role.Guest ? 300 : 1000;
@@ -53,7 +53,7 @@ export function receivedMessage(client: ChatClient, d: any) {
     if (moderatedMessage.newMessageContent !== d.content) {
         sendMessage(
             {
-                type: 3,
+                type: MessageTypes.GoodPerson,
                 userInfo: {
                     username: "System",
                     roles: Role.System,
@@ -69,24 +69,32 @@ export function receivedMessage(client: ChatClient, d: any) {
         );
     }
 
-    var type = 0;
-
-    if (client.id === "000665514498199552") {
-        type = 4;
-    }
-
     const finalMessage = {
-        type: type,
+        type: 0,
         userInfo: {
             username: client.username!,
             roles: client.roles!,
-            id: client.id!
+            id: client.id!,
+            bridgeMetadata: {}
         },
         timestamp: Date.now(),
         content: moderatedMessage.newMessageContent,
         id: generateID(),
         device: client.device
     };
+    if (d.bridgeMetadata && client.roles! & Role.Mod) {
+        finalMessage.userInfo = {
+            id: client.id!,
+            roles: Role.User,
+            username: d.bridgeMetadata.username,
+            bridgeMetadata: {
+                from: d.bridgeMetadata.from,
+                color: d.bridgeMetadata.color
+            }
+        };
+        finalMessage.type = MessageTypes.Bridge;
+    }
+
     saveMessageToHistory(finalMessage);
     sendMessage(finalMessage);
     client.lastMessageTimestamp = Date.now();
