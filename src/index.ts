@@ -4,8 +4,9 @@ import { history } from "./modules/history";
 //import { config } from "./config";
 import { sendMessage } from "./modules/messageSending";
 import { accountInitialisation } from "./opcodes/accountInitialisation";
-import { heartbeat } from "./opcodes/heartbeat";
 import { receivedMessage } from "./opcodes/receivedMessage";
+import { heartbeat } from "./opcodes/heartbeat";
+import { ping } from "./opcodes/ping";
 import { generateID } from "./utils/ids";
 import { ChatClient, Opcode, Payload, Role } from "./utils/types";
 
@@ -23,6 +24,10 @@ const opcodes: Opcode[] = [
     {
         code: 2,
         function: heartbeat
+    },
+    {
+        code: 3,
+        function: ping
     }
 ];
 
@@ -33,6 +38,7 @@ wss.on("connection", function connection(ws: ChatClient, req) {
     ws.on("close", function close() {
         if (ws.initialised)
             sendMessage({
+                type: 2,
                 userInfo: {
                     username: "System",
                     roles: Role.System,

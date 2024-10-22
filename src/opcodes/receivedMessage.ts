@@ -53,6 +53,7 @@ export function receivedMessage(client: ChatClient, d: any) {
     if (moderatedMessage.newMessageContent !== d.content) {
         sendMessage(
             {
+                type: 3,
                 userInfo: {
                     username: "System",
                     roles: Role.System,
@@ -67,7 +68,15 @@ export function receivedMessage(client: ChatClient, d: any) {
             client
         );
     }
+
+    var type = 0;
+
+    if (client.id === "000665514498199552") {
+        type = 4;
+    }
+
     const finalMessage = {
+        type: type,
         userInfo: {
             username: client.username!,
             roles: client.roles!,

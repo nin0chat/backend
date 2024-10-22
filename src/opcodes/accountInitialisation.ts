@@ -45,6 +45,7 @@ export async function accountInitialisation(client: ChatClient, d: any) {
             JSON.stringify({
                 op: 1,
                 d: {
+                    type: 0,
                     id: client.id,
                     username: client.username,
                     roles: client.roles
@@ -52,6 +53,7 @@ export async function accountInitialisation(client: ChatClient, d: any) {
             })
         );
         sendMessage({
+            type: 1,
             userInfo: {
                 username: "System",
                 roles: Role.System,
@@ -119,6 +121,7 @@ export async function accountInitialisation(client: ChatClient, d: any) {
                 JSON.stringify({
                     op: 1,
                     d: {
+                        type: 0,
                         id: client.id,
                         username: client.username,
                         roles: client.roles,
@@ -127,6 +130,7 @@ export async function accountInitialisation(client: ChatClient, d: any) {
                 })
             );
             sendMessage({
+                type: 1,
                 userInfo: {
                     username: "System",
                     roles: Role.System,
