@@ -87,8 +87,6 @@ const bannedWords = [
     "n*gg*r",
     "nigga",
     "grope",
-    "i'm gonna touch you",
-    "im gonna touch you",
     "tranny" // haha also me - zander
 ];
 
