@@ -2,6 +2,7 @@ import { wss } from "..";
 import { ChatClient } from "../utils/types";
 
 type SendMessagePayload = {
+    type: number;
     userInfo: {
         username: string;
         roles: number;

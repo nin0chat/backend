@@ -37,6 +37,7 @@ wss.on("connection", function connection(ws: ChatClient, req) {
     ws.on("close", function close() {
         if (ws.initialised)
             sendMessage({
+                type: 2,
                 userInfo: {
                     username: "System",
                     roles: Role.System,
