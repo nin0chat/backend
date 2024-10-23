@@ -1,3 +1,4 @@
+import { hash } from "crypto";
 import { WebSocketServer } from "ws";
 
 import { history } from "./modules/history";
@@ -36,11 +37,12 @@ wss.on("connection", function connection(ws: ChatClient, req) {
     ws.ipAddress = req.headers["cf-connecting-ip"]?.toString() || req.socket.remoteAddress!;
     ws.on("error", console.error);
 
-    ws.on("close", function close() {
+    ws.on("close", async () => {
         if (ws.initialised) {
+            const hashedIP = await hash("SHA-1", ws.ipAddress);
             ipc.notify("createDiscordMessage", {
                 channel: "1298782706452402348",
-                content: `User **${ws.username}** with IP \`${ws.ipAddress}\` has left`
+                content: `User **${ws.username}** with IP \`${hashedIP}\` has left`
             });
             if (!(ws.roles! & Role.Bot))
                 sendMessage({

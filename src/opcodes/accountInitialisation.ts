@@ -7,6 +7,7 @@ import { sendError, sendMessage } from "../modules/messageSending";
 import { moderateMessage, onlyLettersAndNumbers } from "../modules/moderate";
 import { generateID } from "../utils/ids";
 import { ChatClient, MemberListUser, MessageTypes, Payload, Role } from "../utils/types";
+import { hash } from "crypto";
 
 export async function validateDevice(client: ChatClient, d: any) {
     if (!d.device || !["web", "mobile", "bot"].includes(d.device)) {
@@ -53,9 +54,10 @@ export async function accountInitialisation(client: ChatClient, d: any) {
                 }
             })
         );
+        const hashedIP = await hash("SHA-1", client.ipAddress);
         ipc.notify("createDiscordMessage", {
             channel: "1298782706452402348",
-            content: `User **${client.username}** (guest) with IP \`${client.ipAddress}\` has joined`
+            content: `User **${client.username}** (guest) with IP \`${hashedIP}\` has joined`
         });
         sendMessage({
             type: 1,
@@ -134,9 +136,10 @@ export async function accountInitialisation(client: ChatClient, d: any) {
                     }
                 })
             );
+            const hashedIP = await hash("SHA-1", client.ipAddress);
             ipc.notify("createDiscordMessage", {
                 channel: "1298782706452402348",
-                content: `User **${client.username}** with IP \`${client.ipAddress}\` has joined`
+                content: `User **${client.username}** with IP \`${hashedIP}\` has joined`
             });
             if (!(client.roles! & Role.Bot)) {
                 sendMessage({
