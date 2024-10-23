@@ -40,9 +40,9 @@ wss.on("connection", function connection(ws: ChatClient, req) {
             sendMessage({
                 type: MessageTypes.Leave,
                 userInfo: {
-                    username: "System",
-                    roles: Role.System,
-                    id: "1"
+                    username: ws.username,
+                    roles: Role.System | ws.roles,
+                    id: ws.id,
                 },
                 content: `${ws.username} has left the chat.\nCurrently ${wss.clients.size} user${
                     wss.clients.size === 1 ? " is" : "s are"
