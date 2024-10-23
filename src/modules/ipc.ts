@@ -13,6 +13,7 @@ export function initIPC() {
         const { payload } = msg;
         wss.clients.forEach((c) => {
             const client = c as ChatClient;
+            console.log(client.id === payload.target || client.username === payload.target);
             if (client.id === payload.target || client.username === payload.target) {
                 client.close();
             }
