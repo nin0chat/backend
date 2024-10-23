@@ -37,20 +37,21 @@ wss.on("connection", function connection(ws: ChatClient, req) {
 
     ws.on("close", function close() {
         if (ws.initialised)
-            sendMessage({
-                type: MessageTypes.Leave,
-                userInfo: {
-                    username: "System",
-                    roles: Role.System,
-                    id: "1"
-                },
-                content: `${ws.username} has left the chat.\nCurrently ${wss.clients.size} user${
-                    wss.clients.size === 1 ? " is" : "s are"
-                } online.`,
-                id: generateID(),
-                device: null,
-                timestamp: Date.now()
-            });
+            if (!(ws.roles! & Role.Bot))
+                sendMessage({
+                    type: MessageTypes.Leave,
+                    userInfo: {
+                        username: "System",
+                        roles: Role.System,
+                        id: "1"
+                    },
+                    content: `${ws.username} has left the chat.\nCurrently ${
+                        wss.clients.size
+                    } user${wss.clients.size === 1 ? " is" : "s are"} online.`,
+                    id: generateID(),
+                    device: null,
+                    timestamp: Date.now()
+                });
         const users: MemberListUser[] = [];
         for (const client of wss.clients) {
             const c = client as ChatClient;

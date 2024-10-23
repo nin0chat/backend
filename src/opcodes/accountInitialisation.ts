@@ -157,6 +157,7 @@ export async function accountInitialisation(client: ChatClient, d: any) {
             roles: c.roles!
         });
     }
+    if (client.roles! & Role.Bot) return;
     for (const client of wss.clients) {
         client.send(
             JSON.stringify({
