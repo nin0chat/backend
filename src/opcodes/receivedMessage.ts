@@ -1,5 +1,6 @@
 import { wss } from "..";
 import { saveMessageToHistory } from "../modules/history";
+import { ipc } from "../modules/ipc";
 import { sendError, sendMessage } from "../modules/messageSending";
 import { moderateMessage } from "../modules/moderate";
 import { last10Messages } from "../modules/rateLimiting";
@@ -67,6 +68,10 @@ export function receivedMessage(client: ChatClient, d: any) {
             },
             client
         );
+        ipc.notify("createDiscordMessage", {
+            channel: "1298785684412436540",
+            content: `User **${client.username}** has said something bad. Message: \n\`\`\`\n${moderatedMessage.newMessageContent}\n\`\`\``
+        });
     }
 
     const finalMessage = {

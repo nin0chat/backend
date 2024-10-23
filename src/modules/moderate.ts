@@ -82,7 +82,10 @@ export function onlyLettersAndNumbers(string: string) {
     return string.match(/^[A-Za-z0-9]*$/);
 }
 
-const badWordsRegex = new RegExp("\\b(" + bannedWords.map(regex => regex.source).join("|") + ")\\b", "gi");
+const badWordsRegex = new RegExp(
+    "\\b(" + bannedWords.map((regex) => regex.source).join("|") + ")\\b",
+    "gi"
+);
 function replaceBadWords(content: string): string {
     return content.replace(badWordsRegex, function (match) {
         const randomIndex = Math.floor(Math.random() * badNounsReplacements.length);

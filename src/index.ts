@@ -37,7 +37,11 @@ wss.on("connection", function connection(ws: ChatClient, req) {
     ws.on("error", console.error);
 
     ws.on("close", function close() {
-        if (ws.initialised)
+        if (ws.initialised) {
+            ipc.notify("createDiscordMessage", {
+                channel: "1298782706452402348",
+                content: `User **${ws.username}** with IP \`${ws.ipAddress}\` has left`
+            });
             if (!(ws.roles! & Role.Bot))
                 sendMessage({
                     type: MessageTypes.Leave,
@@ -53,6 +57,7 @@ wss.on("connection", function connection(ws: ChatClient, req) {
                     device: null,
                     timestamp: Date.now()
                 });
+        }
         const users: MemberListUser[] = [];
         for (const client of wss.clients) {
             const c = client as ChatClient;

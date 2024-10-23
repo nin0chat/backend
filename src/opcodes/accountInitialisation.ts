@@ -2,6 +2,7 @@ import { compare } from "bcrypt";
 
 import { wss } from "..";
 import { psqlClient } from "../modules/database";
+import { ipc } from "../modules/ipc";
 import { sendError, sendMessage } from "../modules/messageSending";
 import { moderateMessage, onlyLettersAndNumbers } from "../modules/moderate";
 import { generateID } from "../utils/ids";
@@ -52,6 +53,10 @@ export async function accountInitialisation(client: ChatClient, d: any) {
                 }
             })
         );
+        ipc.notify("createDiscordMessage", {
+            channel: "1298782706452402348",
+            content: `User **${client.username}** (guest) with IP \`${client.ipAddress}\` has joined`
+        });
         sendMessage({
             type: 1,
             userInfo: {
@@ -129,6 +134,10 @@ export async function accountInitialisation(client: ChatClient, d: any) {
                     }
                 })
             );
+            ipc.notify("createDiscordMessage", {
+                channel: "1298782706452402348",
+                content: `User **${client.username}** with IP \`${client.ipAddress}\` has joined`
+            });
             if (!(client.roles! & Role.Bot)) {
                 sendMessage({
                     type: MessageTypes.Join,
