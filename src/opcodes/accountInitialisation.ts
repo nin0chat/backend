@@ -54,11 +54,11 @@ export async function accountInitialisation(client: ChatClient, d: any) {
         );
         sendMessage({
             type: 1,
-            userInfo: {
-                username: "System",
-                roles: Role.System,
-                id: "1"
-            },
+			userInfo: {
+				username: client.username!,
+				roles: Role.System | client.roles!,
+				id: client.id!,
+			},
             content: `${client.username} *(guest)* has joined the chat. Say hi!\nCurrently ${
                 wss.clients.size
             } user${wss.clients.size === 1 ? " is" : "s are"} online.`,
@@ -132,9 +132,9 @@ export async function accountInitialisation(client: ChatClient, d: any) {
             sendMessage({
                 type: MessageTypes.Join,
                 userInfo: {
-                    username: "System",
-                    roles: Role.System,
-                    id: "1"
+                    username: client.username!,
+                    roles: Role.System | client.roles!,
+                    id: client.id!,
                 },
                 content: `${client.username} has joined the chat. Say hi!\nCurrently ${
                     wss.clients.size
