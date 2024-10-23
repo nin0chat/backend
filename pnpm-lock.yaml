@@ -20,6 +20,9 @@ importers:
       pg:
         specifier: ^8.13.0
         version: 8.13.0
+      pg-ipc:
+        specifier: ^1.0.5
+        version: 1.0.5
       ws:
         specifier: ^8.18.0
         version: 8.18.0
@@ -702,6 +705,9 @@ packages:
   pg-int8@1.0.1:
     resolution: {integrity: sha512-WCtabS6t3c8SkpDBUlb1kjOs7l66xsGdKpIPZsg4wR+B3+u9UAum2odSsF9tnvxg80h4ZxLWMy4pRjOsFIqQpw==}
     engines: {node: '>=4.0.0'}
+
+  pg-ipc@1.0.5:
+    resolution: {integrity: sha512-nF4uB5vuqvPCeyWGLRVCOLxGaXq8tVMVZ+rCkX0XGbErlUUCwpb6+uME6s6vkB2T3n8lhZwojn5frFl67I5Ugg==}
 
   pg-numeric@1.0.2:
     resolution: {integrity: sha512-BM/Thnrw5jm2kKLE5uJkXqqExRUY/toLHda65XgFTBTFYZyopbKjBe29Ii3RbkvlsMoFwD+tHeGaCjjv0gHlyw==}
@@ -1664,6 +1670,8 @@ snapshots:
   pg-connection-string@2.7.0: {}
 
   pg-int8@1.0.1: {}
+
+  pg-ipc@1.0.5: {}
 
   pg-numeric@1.0.2: {}
 

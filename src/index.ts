@@ -1,12 +1,13 @@
 import { WebSocketServer } from "ws";
 
 import { history } from "./modules/history";
+import { initIPC, ipc } from "./modules/ipc";
 //import { config } from "./config";
 import { sendMessage } from "./modules/messageSending";
 import { accountInitialisation } from "./opcodes/accountInitialisation";
-import { receivedMessage } from "./opcodes/receivedMessage";
 import { heartbeat } from "./opcodes/heartbeat";
 import { ping } from "./opcodes/ping";
+import { receivedMessage } from "./opcodes/receivedMessage";
 import { generateID } from "./utils/ids";
 import { ChatClient, MemberListUser, MessageTypes, Opcode, Payload, Role } from "./utils/types";
 
@@ -113,5 +114,7 @@ wss.on("connection", function connection(ws: ChatClient, req) {
         }
     }, Math.floor(Math.random() * 10000) + 1000);
 });
+
+initIPC();
 
 process.on("unhandledRejection", (reason, promise) => {});

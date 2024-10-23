@@ -5,6 +5,7 @@
         "bcrypt": "^5.1.1",
         "eslint-plugin-simple-import-sort": "^12.1.1",
         "pg": "^8.13.0",
+        "pg-ipc": "^1.0.5",
         "ws": "^8.18.0"
     },
     "devDependencies": {
