@@ -129,20 +129,22 @@ export async function accountInitialisation(client: ChatClient, d: any) {
                     }
                 })
             );
-            sendMessage({
-                type: MessageTypes.Join,
-                userInfo: {
-                    username: "System",
-                    roles: Role.System,
-                    id: "1"
-                },
-                content: `${client.username} has joined the chat. Say hi!\nCurrently ${
-                    wss.clients.size
-                } user${wss.clients.size === 1 ? " is" : "s are"} online.`,
-                id: generateID(),
-                device: null,
-                timestamp: Date.now()
-            });
+            if (!(client.roles! & Role.Bot)) {
+                sendMessage({
+                    type: MessageTypes.Join,
+                    userInfo: {
+                        username: "System",
+                        roles: Role.System,
+                        id: "1"
+                    },
+                    content: `${client.username} has joined the chat. Say hi!\nCurrently ${
+                        wss.clients.size
+                    } user${wss.clients.size === 1 ? " is" : "s are"} online.`,
+                    id: generateID(),
+                    device: null,
+                    timestamp: Date.now()
+                });
+            }
         } catch {
             client.close();
         }
@@ -157,7 +159,6 @@ export async function accountInitialisation(client: ChatClient, d: any) {
             roles: c.roles!
         });
     }
-    if (client.roles! & Role.Bot) return;
     for (const client of wss.clients) {
         client.send(
             JSON.stringify({
