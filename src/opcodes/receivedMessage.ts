@@ -70,7 +70,7 @@ export function receivedMessage(client: ChatClient, d: any) {
         );
         ipc.notify("createDiscordMessage", {
             channel: "1298785684412436540",
-            content: `User **${client.username}** has said something bad. Message: \n\`\`\`\n${moderatedMessage.newMessageContent}\n\`\`\``
+            content: `User **${client.username}** has said something bad. Message: \n\`\`\`\n${d.content}\n\`\`\``
         });
     }
 
