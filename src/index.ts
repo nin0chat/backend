@@ -108,18 +108,21 @@ wss.on("connection", function connection(ws: ChatClient, req) {
         })
     );
 
-    setInterval(() => {
-        if (ws.lastHeartbeat + 10000 < Date.now()) {
-            ws.close();
-        } else {
-            ws.send(
-                JSON.stringify({
-                    op: 2,
-                    d: {}
-                })
-            );
-        }
-    }, Math.floor(Math.random() * 10000) + 1000);
+    setInterval(
+        () => {
+            if (ws.lastHeartbeat + 10000 < Date.now()) {
+                ws.close();
+            } else {
+                ws.send(
+                    JSON.stringify({
+                        op: 2,
+                        d: {}
+                    })
+                );
+            }
+        },
+        Math.floor(Math.random() * 10000) + 1000
+    );
 });
 
 initIPC();
